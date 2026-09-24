@@ -1,6 +1,6 @@
 # Loadia-Stats
 
-Statistiques de jeux vidéo via Loadia, avec n8n.
+Statistiques de jeux vidéo avec n8n pour le site **[Loadia](https://loadia.app/)** : ludothèque, progression, temps de jeu et statistiques de votre compte Loadia.
 
 ## Workflow
 
