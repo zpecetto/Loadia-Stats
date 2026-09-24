@@ -1,0 +1,970 @@
+{
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "active": false,
+  "pinData": {},
+  "tags": [],
+  "name": "Loadia - Jeux vidéo",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://YOUR_N8N_HOST.example.invalid/",
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -5328,
+        2112
+      ],
+      "id": "f2ef2f75-44c6-5215-9627-a913adef5854",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4a1cf3d8-1821-5694-aec3-54e02e71b37f",
+              "name": "jour_de_la_semaine",
+              "value": "={{ $json.jour_de_la_semaine }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5776,
+        2192
+      ],
+      "id": "e6b6d1ce-e36e-5ac0-93ba-510b9e3c51c7",
+      "name": "Configuration Globale"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "dfe26474-e182-5972-9207-d7a85fa59c45",
+              "leftValue": "={{ $json.statusCode }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -5104,
+        2112
+      ],
+      "id": "c36b2653-d79c-521c-a53a-4dc8396358de",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "command": "=pkill ngrok; sleep 2; nohup ngrok http 5678 > /dev/null 2>&1 &"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        -4880,
+        2224
+      ],
+      "id": "3cc7c5e1-0afa-5926-adcb-c5fed19c6586",
+      "name": "Restauration Tunnel1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -4688,
+        2368
+      ],
+      "id": "c58c292a-ca01-5269-9982-3afbf68554f8",
+      "name": "Wait1",
+      "webhookId": "fe7cf448-1bb2-5d60-8e37-52255f5aaedf"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -5552,
+        2192
+      ],
+      "id": "34f8b24b-28e4-506c-8647-898c73bc7cae",
+      "name": "Loop Over Items4"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $now }}",
+        "format": "custom",
+        "customFormat": "E",
+        "outputFieldName": "jour_de_la_semaine",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -6000,
+        2192
+      ],
+      "id": "ed714b36-15f5-5e71-81de-a134161436e0",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                5
+              ],
+              "triggerAtHour": 17
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -6224,
+        2192
+      ],
+      "id": "7bb9259b-b9d3-5008-9c25-a0fc20d35c29",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "93bdf817-1e7d-5393-bcf3-e734dba4ff56",
+              "name": "cookie_loadia",
+              "value": "[]",
+              "type": "string"
+            },
+            {
+              "id": "cda815c8-e415-5982-a66b-6f7c32420af9",
+              "name": "loadia_stat",
+              "value": "https://loadia.app/app/stats?lang=fr",
+              "type": "string"
+            },
+            {
+              "id": "78ba6316-ca20-5a67-a24c-4ec8913d8e34",
+              "name": "loadia_ludotheque",
+              "value": "https://loadia.app/app/library?lang=fr",
+              "type": "string"
+            },
+            {
+              "id": "42818700-5f35-598e-ad33-3242b2c33a5d",
+              "name": "mail_loadia",
+              "value": "YOUR_MAIL_LOADIA",
+              "type": "string"
+            },
+            {
+              "id": "83bbfe29-ad83-573a-ad12-5cd7cb921860",
+              "name": "mdp_loadia",
+              "value": "YOUR_MDP_LOADIA",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -2528,
+        -464
+      ],
+      "id": "7b1d1c10-63e1-5d0a-b01b-c9e467fe711f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=🚨 **ALERTE Loadia**\n\nLe workflow d’extraction s’est arrêté pendant la vérification.\n\n**Raison :** {{ ($json.data ?? $json).erreur || \"Erreur HTTP ou Browserless. Consulte le détail de l’exécution dans n8n.\" }}\n\n**Action :** {{ ($json.data ?? $json).statut_session === 'invalide' ? \"Reconnecte-toi à Loadia, puis actualise cookie_loadia dans le nœud Edit Fields.\" : \"Vérifie l’accès à Loadia, Browserless et le format des cookies dans Edit Fields.\" }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -1856,
+        -272
+      ],
+      "id": "8aec35ef-3098-5f50-8867-2112eec1ee6c",
+      "name": "Discord",
+      "webhookId": "7ce5823b-b789-5f1c-ab76-fd20edbb7180"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://browserless:3000/function?timeout=120000",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "code",
+              "value": "export default async function ({ page, context = {} }) {   const reply = (data) => ({     data,     type: 'application/json'   });    const pause = (ms) =>     new Promise((resolve) => setTimeout(resolve, ms));    const origin = 'https://loadia.app';   const mode = 'stats';   const selector = '.l-stats-page .l-stat-tile';    const isAuth = (cookie) =>     cookie &&     typeof cookie.name === 'string' &&     typeof cookie.value === 'string' &&     /-auth-token(?:\\.\\d+)?$/.test(cookie.name);    const failures = new Map();   const authResponses = [];    let injectedCount = 0;   let storedCount = null;   let stage = 'configuration';    async function diagnose() {     const authRequests = await Promise.all(       authResponses.map(async (entry) => {         let code = null;          try {           const body = await entry.response.json();            code = [             body.error_code,             body.code,             body.error           ].find(             (value) =>               typeof value === 'string' &&               /^[a-z][a-z0-9_]{0,79}$/i.test(value)           ) || null;         } catch {}          return {           date: entry.date,           http: entry.response.status(),           grant_type: entry.grantType,           code         };       })     );      let state = {};      try {       state = await page.evaluate((target) => {         const visible = (element) => {           if (             !element ||             !element.getClientRects().length           ) {             return false;           }            const style = getComputedStyle(element);            return (             style.display !== 'none' &&             style.visibility !== 'hidden' &&             style.visibility !== 'collapse'           );         };          const anyVisible = (css) =>           [...document.querySelectorAll(css)].some(visible);          return {           page: location.origin + location.pathname,           donnees_visibles: anyVisible(target),           bouton_deconnexion_visible: anyVisible(             '.l-rail button[aria-label=\"Se d\\u00e9connecter\"]'           ),           champ_mot_de_passe_visible: anyVisible(             'input[type=\"password\"]'           ),           route_connexion:             /\\/(login|signin|sign-in|auth|connexion)(\\/|$)/i               .test(location.pathname)         };       }, selector);     } catch {}      let remaining = null;      try {       remaining = (         await page.cookies(origin + '/')       ).filter(isAuth).length;     } catch {}      return {       mode,       etape: stage,       ...state,       date_diagnostic: new Date().toISOString(),       date_verification:         context.verificationDate || null,       cookies_injectes: injectedCount,       cookies_stockes_apres_injection: storedCount,       cookies_presents: remaining,       erreurs_auth_supabase: authRequests,       requetes_en_echec: [...failures]         .slice(0, 10)         .map(([url, http]) => ({ url, http }))     };   }    function readDOM() {     const text = (node) =>       (node?.textContent || '')         .replace(/\\s+/g, ' ')         .trim();      const root = document.querySelector('.l-stats-page');      if (!root) {       throw new Error('STATS_MISSING');     }      function findPanel(scope, title) {       const panel = [         ...scope.querySelectorAll('.l-stats-panel')       ].find(         (node) =>           text(node.querySelector('h3')) === title       );        if (!panel) {         throw new Error('PANEL_MISSING');       }        return panel;     }      function readBreakdown(panel) {       const list = panel.querySelector(         '.l-breakdown-list'       );        if (         !list &&         !panel.querySelector('.l-field-hint')       ) {         throw new Error('BREAKDOWN_STRUCTURE');       }        return [         ...panel.querySelectorAll('.l-breakdown-list li')       ].map((row) => {         const label = text(row.querySelector('span'));         const value = text(row.querySelector('strong'));          if (!label || !value) {           throw new Error('BREAKDOWN_STRUCTURE');         }          return { label, value };       });     }      function readTiles(scope) {       if (!scope) {         throw new Error('TILES_MISSING');       }        return [         ...scope.querySelectorAll('.l-stat-tile')       ].map((tile) => ({         label: text(tile.querySelector('span')),         value: text(tile.querySelector('strong'))       }));     }      const platformPanel = findPanel(root, 'Plateformes');     const platforms = readBreakdown(platformPanel);      const advancedBody = root.querySelector(       '.l-advanced-body'     );      let advanced = null;      if (advancedBody) {       const yearsPanel = findPanel(         advancedBody,         'Ann\\u00e9es'       );        advanced = {         records: readTiles(           advancedBody.querySelector(             '.l-stat-grid-records'           )         ),          years: [           ...yearsPanel.querySelectorAll(             '.l-stats-table [role=\"row\"]'           )         ].map((row) => {           const cells = [             ...row.querySelectorAll('[role=\"cell\"]')           ].map(text);            if (cells.length !== 3) {             throw new Error('YEARS_STRUCTURE');           }            return {             year: cells[0],             entries: cells[1],             rating: cells[2]           };         }),          genres: readBreakdown(           findPanel(             advancedBody,             'Genres les plus jou\\u00e9s'           )         ),          studios: readBreakdown(           findPanel(             advancedBody,             'Studios les plus jou\\u00e9s'           )         ),          releaseEras: readBreakdown(           findPanel(             advancedBody,             '\\u00c9poques de sortie'           )         ),          hoursByPlatform: readBreakdown(           findPanel(             advancedBody,             'Heures par plateforme'           )         )       };     }      return {       tiles: readTiles(         root.querySelector('.l-stat-grid')       ),        ratings: [         ...root.querySelectorAll('.l-rating-bar-row')       ].map((row) => ({         label: text(row.querySelector('span')),         value: text(row.querySelector('strong'))       })),        platforms,        platformsText: platforms.length         ? platforms             .map((row) => row.label + ' : ' + row.value)             .join(' | ')         : text(             platformPanel.querySelector('.l-field-hint')           ) || null,        advanced     };   }    try {     let cookies = context.cookies;      if (typeof cookies === 'string') {       try {         cookies = JSON.parse(cookies);       } catch {         throw new Error('COOKIES');       }     }      if (!Array.isArray(cookies)) {       throw new Error('COOKIES');     }      cookies = cookies.filter(       (cookie) =>         isAuth(cookie) &&         (           !cookie.domain ||           cookie.domain.replace(/^\\./, '') ===             'loadia.app'         )     );      if (!cookies.length) {       throw new Error('COOKIES');     }      injectedCount = cookies.length;      await page.setCookie(       ...cookies.map((cookie) => {         const item = {           name: cookie.name,           value: cookie.value,           url: origin + '/',           path: '/',           secure: true,           httpOnly: !!cookie.httpOnly,           sameSite: {             lax: 'Lax',             strict: 'Strict',             none: 'None',             no_restriction: 'None'           }[             String(cookie.sameSite || 'lax')               .toLowerCase()           ] || 'Lax'         };          const expiry = Number(           cookie.expires ?? cookie.expirationDate         );          if (           Number.isFinite(expiry) &&           expiry > 0         ) {           item.expires = expiry;         }          return item;       })     );      storedCount = (       await page.cookies(origin + '/')     ).filter(isAuth).length;      await page.setViewport({       width: 1440,       height: 1000     });      await page.setExtraHTTPHeaders({       'Accept-Language': 'fr-FR,fr;q=0.9'     });      page.on('response', (response) => {       const request = response.request();       const url = new URL(response.url());        if (         url.hostname.endsWith('.supabase.co') &&         url.pathname === '/auth/v1/token' &&         response.status() >= 400       ) {         const grantType = url.searchParams.get(           'grant_type'         );          authResponses.push({           response,           date: new Date().toISOString(),           grantType: [             'refresh_token',             'password',             'pkce',             'id_token'           ].includes(grantType)             ? grantType             : 'other'         });          if (authResponses.length > 10) {           authResponses.shift();         }       }        if (         ['xhr', 'fetch'].includes(           request.resourceType()         ) &&         (           url.hostname === 'loadia.app' ||           url.hostname.endsWith('.supabase.co')         )       ) {         const key = url.origin + url.pathname;          if (response.status() >= 400) {           failures.set(key, response.status());         } else {           failures.delete(key);         }       }     });      stage = 'navigation';      const response = await page.goto(       origin + '/app/stats?lang=fr',       {         waitUntil: 'networkidle2',         timeout: 40000       }     );      if (response && response.status() >= 400) {       throw new Error('HTTP_' + response.status());     }      stage = 'page readiness';      try {       const handle = await page.waitForSelector(         selector,         {           visible: true,           timeout: 30000         }       );        if (handle) {         await handle.dispose();       }     } catch (error) {       if (error.name === 'TimeoutError') {         throw new Error('PAGE_NOT_READY');       }        throw error;     }      stage = 'data stabilization';      let snapshot;     let previous = '';     let stable = 0;      for (       let attempt = 0;       attempt < 20 && stable < 3;       attempt++     ) {       snapshot = await page.evaluate(readDOM);        const signature = JSON.stringify(snapshot);        stable = signature === previous         ? stable + 1         : 0;        previous = signature;        await pause(500);     }      if (stable < 3) {       throw new Error('UNSTABLE');     }      if (snapshot.tiles.length < 15) {       throw new Error('INCOMPLETE');     }      if (failures.size) {       throw new Error('DATA_REQUEST');     }      return reply({       statut_session: 'valide',       date_extraction: new Date().toISOString(),       donnees: snapshot     });   } catch (error) {     const diagnostic = await diagnose();      if (       error.message === 'PAGE_NOT_READY' &&       !diagnostic.bouton_deconnexion_visible &&       (         diagnostic.champ_mot_de_passe_visible ||         diagnostic.route_connexion       )     ) {       return reply({         statut_session: 'invalide',         erreur:           'Loadia still displays a login screen after waiting. Refresh cookie_loadia and run the workflow from the start.',         diagnostic       });     }      const messages = {       STATS_MISSING:         'The statistics section was not found.',       PANEL_MISSING:         'A statistics panel was not found. Check the page structure.',       BREAKDOWN_STRUCTURE:         'Cannot read names and values from a statistics list.',       TILES_MISSING:         'A statistics grid was not found.',       YEARS_STRUCTURE:         'Cannot read the annual statistics table.',       COOKIES:         'Loadia cookies are missing or invalid.',       INCOMPLETE:         'Incomplete extraction: some expected data is missing.',       UNSTABLE:         'Data is still changing. Run the node again.',       DATA_REQUEST:         'A Loadia data request failed. Run the node again.',       PAGE_NOT_READY:         diagnostic.bouton_deconnexion_visible           ? 'Loadia navigation is visible, but the requested data did not load.'           : 'The requested Loadia page did not load. Check diagnostic.'     };      let message =       messages[error.message] ||       'Extraction failed during: ' + stage;      if (/ERR_NAME_NOT_RESOLVED/.test(error.message)) {       message = 'DNS resolution failed for Loadia.';     }      if (/^HTTP_\\d+$/.test(error.message)) {       message = 'Loadia returned: ' + error.message;     }      return reply({       statut_session: 'erreur',       erreur: message,       diagnostic     });   } }"
+            },
+            {
+              "name": "context",
+              "value": "={{ {\n  mode: 'stats',\n  cookies: (\n    $('Vérification cookie').first().json.data\n    ?? $('Vérification cookie').first().json\n  ).cookies,\n  verificationDate: (\n    $('Vérification cookie').first().json.data\n    ?? $('Vérification cookie').first().json\n  ).date_extraction\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1856,
+        -656
+      ],
+      "id": "b21e4498-a240-57ae-9b61-54035ceeca99",
+      "name": "Stat"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst result = input.data ?? input;\n\nif (\n  input.error ||\n  result.statut_session !== 'valide'\n) {\n  throw new Error(\n    result.erreur ||\n    'Loadia statistics request failed.'\n  );\n}\n\nconst raw = result.donnees;\n\nif (\n  !Array.isArray(raw?.tiles) ||\n  !Array.isArray(raw?.ratings)\n) {\n  throw new Error('Missing Loadia statistics data.');\n}\n\nif (\n  !Object.prototype.hasOwnProperty.call(raw, 'advanced')\n) {\n  throw new Error(\n    'Update Stat and run it again to extract the advanced statistics.'\n  );\n}\n\nconst clean = (value) =>\n  String(value ?? '').replace(/\\s+/g, ' ').trim();\n\nfunction parseNumber(value, nullable = false) {\n  const text = clean(value)\n    .replace(/\\s/g, '')\n    .replace(',', '.');\n\n  if (\n    nullable &&\n    ['—', '–', '-', ''].includes(text)\n  ) {\n    return null;\n  }\n\n  if (!/^\\d+(?:\\.\\d+)?$/.test(text)) {\n    throw new Error('Invalid number: ' + clean(value));\n  }\n\n  const parsed = Number(text);\n\n  if (!Number.isFinite(parsed)) {\n    throw new Error('Invalid number: ' + clean(value));\n  }\n\n  return parsed;\n}\n\nfunction parseCount(value, nullable = false) {\n  const number = parseNumber(value, nullable);\n\n  if (\n    number !== null &&\n    !Number.isSafeInteger(number)\n  ) {\n    throw new Error('Invalid count: ' + clean(value));\n  }\n\n  return number;\n}\n\nfunction parseRating(value) {\n  const number = parseNumber(value, true);\n\n  if (\n    number !== null &&\n    (number < 0 || number > 5)\n  ) {\n    throw new Error('Invalid rating: ' + clean(value));\n  }\n\n  return number;\n}\n\nfunction parseEntries(value) {\n  return parseCount(\n    clean(value).replace(/\\s*entrées?$/iu, '')\n  );\n}\n\nfunction formatPlatforms(value) {\n  const text = clean(value);\n\n  if (!text) return null;\n\n  if (['—', '–', '-'].includes(text)) {\n    return text;\n  }\n\n  return text\n    .split(/\\s*\\|\\s*/)\n    .map((part) => {\n      const match = part.match(\n        /^(.+)\\s*:\\s*(\\d[\\d\\s]*)$/u\n      );\n\n      if (!match) {\n        throw new Error(\n          'Missing platform separators. Update Stat and run Stat again before Stat1.'\n        );\n      }\n\n      return (\n        clean(match[1]) +\n        ' : ' +\n        parseCount(match[2])\n      );\n    })\n    .join(' | ');\n}\n\nfunction indexRows(rows) {\n  if (!Array.isArray(rows)) {\n    throw new Error('Missing statistics rows.');\n  }\n\n  const seen = new Set();\n\n  return Object.fromEntries(\n    rows.map((row) => {\n      const label = clean(row.label);\n\n      if (!label || seen.has(label)) {\n        throw new Error(\n          'Invalid or duplicate statistic label.'\n        );\n      }\n\n      seen.add(label);\n\n      return [label, row.value];\n    })\n  );\n}\n\nfunction parseBreakdown(rows, parser = parseCount) {\n  return Object.fromEntries(\n    Object.entries(indexRows(rows)).map(\n      ([label, value]) => [label, parser(value)]\n    )\n  );\n}\n\nfunction splitRecord(value) {\n  const text = clean(value);\n\n  if (['—', '–', '-', ''].includes(text)) {\n    return null;\n  }\n\n  const position = text.lastIndexOf('·');\n\n  if (\n    position <= 0 ||\n    position === text.length - 1\n  ) {\n    throw new Error(\n      'Invalid activity record: ' + text\n    );\n  }\n\n  return [\n    text.slice(0, position).trim(),\n    text.slice(position + 1).trim()\n  ];\n}\n\nfunction parseActivity(value, labelKey) {\n  const parts = splitRecord(value);\n\n  return parts\n    ? {\n        [labelKey]: parts[0],\n        entrees: parseEntries(parts[1])\n      }\n    : null;\n}\n\nconst tiles = Object.fromEntries(\n  raw.tiles.map((tile) => [\n    clean(tile.label),\n    tile.value\n  ])\n);\n\nconst fields = {\n  total_collection: 'Collection',\n  termines: 'Terminés',\n  en_cours: 'En cours',\n  envies: 'Envies',\n  a_jouer: 'À jouer',\n  abandonnes: 'Abandonnés',\n  critiques: 'Critiques',\n  coups_de_coeur: 'Coups de cœur',\n  completes_100_pourcent: '100 %',\n  jeux_notes: 'Notés'\n};\n\nconst stats = {};\n\nfor (const [key, label] of Object.entries(fields)) {\n  if (!(label in tiles)) {\n    throw new Error('Missing statistic: ' + label);\n  }\n\n  const value = parseNumber(tiles[label]);\n\n  if (!Number.isSafeInteger(value)) {\n    throw new Error('Invalid count: ' + label);\n  }\n\n  stats[key] = value;\n}\n\nif (!('Heures réelles' in tiles)) {\n  throw new Error('Missing playtime statistic.');\n}\n\nif (!('Note moyenne' in tiles)) {\n  throw new Error('Missing average rating.');\n}\n\nstats.heures_reelles = parseNumber(\n  tiles['Heures réelles']\n);\n\nstats.note_moyenne = parseNumber(\n  tiles['Note moyenne'],\n  true\n);\n\nconst ratings = {};\n\nfor (const row of raw.ratings) {\n  const rating = parseNumber(row.label);\n  const count = parseNumber(row.value);\n\n  if (\n    rating < 0.5 ||\n    rating > 5 ||\n    !Number.isInteger(rating * 2) ||\n    !Number.isSafeInteger(count) ||\n    Object.prototype.hasOwnProperty.call(\n      ratings,\n      String(rating)\n    )\n  ) {\n    throw new Error('Invalid rating distribution.');\n  }\n\n  ratings[String(rating)] = count;\n}\n\nif (\n  Object.keys(ratings).length !== 10 ||\n  Object.values(ratings).reduce(\n    (sum, value) => sum + value,\n    0\n  ) !== stats.jeux_notes\n) {\n  throw new Error(\n    'Rating counts do not match the statistics.'\n  );\n}\n\nconst advancedStats = {};\n\nif (raw.advanced !== null) {\n  const advanced = raw.advanced;\n  const records = indexRows(advanced.records);\n\n  const record = (label) => {\n    if (\n      !Object.prototype.hasOwnProperty.call(\n        records,\n        label\n      )\n    ) {\n      throw new Error(\n        'Missing advanced statistic: ' + label\n      );\n    }\n\n    return records[label];\n  };\n\n  const completion = parseNumber(\n    clean(record('Taux de complétion'))\n      .replace(/\\s*%$/, ''),\n    true\n  );\n\n  if (\n    completion !== null &&\n    completion > 100\n  ) {\n    throw new Error(\n      'Invalid completion percentage.'\n    );\n  }\n\n  const bestGame = splitRecord(\n    record('Jeu le mieux noté')\n  );\n\n  if (!Array.isArray(advanced.years)) {\n    throw new Error('Missing annual statistics.');\n  }\n\n  const years = new Set();\n\n  Object.assign(advancedStats, {\n    mois_le_plus_actif: parseActivity(\n      record('Mois le plus actif'),\n      'mois'\n    ),\n\n    plus_longue_serie_jours: parseCount(\n      clean(record('Plus longue série'))\n        .replace(/\\s*jours?$/iu, ''),\n      true\n    ),\n\n    taux_completion_pourcent: completion,\n\n    notes_parfaites: parseCount(\n      record('Notes parfaites')\n    ),\n\n    jeu_le_mieux_note: bestGame\n      ? {\n          titre: bestGame[0],\n          note: parseRating(bestGame[1])\n        }\n      : null,\n\n    jour_le_plus_actif: parseActivity(\n      record('Jour le plus actif'),\n      'jour'\n    ),\n\n    statistiques_par_annee: advanced.years.map(\n      (row) => {\n        const year = parseCount(row.year);\n\n        if (years.has(year)) {\n          throw new Error(\n            'Duplicate year in annual statistics.'\n          );\n        }\n\n        years.add(year);\n\n        return {\n          annee: year,\n          entrees: parseEntries(row.entries),\n          note: parseRating(row.rating)\n        };\n      }\n    )\n  });\n}\n\nconst playedGames =\n  stats.termines +\n  stats.en_cours +\n  stats.abandonnes;\n\nconst backlogGames = stats.a_jouer;\n\nconst libraryTotal = playedGames + backlogGames;\n\nreturn [\n  {\n    json: {\n      type: 'statistiques',\n      source: 'Loadia',\n      date_extraction: result.date_extraction,\n\n      total_collection: stats.total_collection,\n      jeux_joues: playedGames,\n      backlog: backlogGames,\n      total_ludotheque: libraryTotal,\n      liste_souhait: stats.envies,\n\n      autre_stat: {\n        abandonnes: stats.abandonnes,\n        termines: stats.termines,\n        en_cours: stats.en_cours,\n        critiques: stats.critiques,\n        note_moyenne: stats.note_moyenne,\n        heures_reelles: stats.heures_reelles,\n        coups_de_coeur: stats.coups_de_coeur,\n        completes_100_pourcent:\n          stats.completes_100_pourcent,\n        jeux_notes: stats.jeux_notes,\n        repartition_notes: ratings,\n\n        plateformes_texte: formatPlatforms(\n          raw.platformsText\n        ),\n\n        ...advancedStats,\n\n        genres_les_plus_joues: raw.advanced\n          ? parseBreakdown(raw.advanced.genres)\n          : null,\n\n        studios_les_plus_joues: raw.advanced\n          ? parseBreakdown(raw.advanced.studios)\n          : null,\n\n        epoques_de_sortie: raw.advanced\n          ? parseBreakdown(raw.advanced.releaseEras)\n          : null,\n\n        heures_par_plateforme: raw.advanced\n          ? parseBreakdown(\n              raw.advanced.hoursByPlatform,\n              (value) =>\n                parseNumber(\n                  clean(value).replace(/\\s*h$/iu, '')\n                )\n            )\n          : null\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1632,
+        -656
+      ],
+      "id": "ab000780-8353-5cde-b7f8-3682023b675f",
+      "name": "Stat1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://browserless:3000/function?timeout=190000",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "code",
+              "value": "export default async function ({ page, context = {} }) {   const reply = (data) => ({     data,     type: 'application/json'   });    const pause = (ms) =>     new Promise((resolve) => setTimeout(resolve, ms));    const origin = 'https://loadia.app';   const deadline = Date.now() + 110000;    const selectors = {     logout:       '.l-rail button[aria-label=\"Se déconnecter\"]',     email: 'form input[type=\"email\"]',     password: 'form input[type=\"password\"]',     submit: 'form button[type=\"submit\"]'   };    let stage = 'initialisation';   let cookieState = 'non_testé';   let injectedCount = 0;   let loginAttempted = false;    const checkBudget = () => {     if (Date.now() >= deadline) {       throw new Error('TIME_BUDGET');     }   };    const absoluteUrl = (path) => {     if (/^https?:\\/\\//i.test(path)) {       return path;     }      return `${origin}${path}`;   };    const navigate = async (path) => {     checkBudget();      await page.goto(absoluteUrl(path), {       waitUntil: 'domcontentloaded',       timeout: 30000     });      await pause(1500);   };    const normalizeCookie = (cookie) => {     if (!cookie || typeof cookie !== 'object') {       return null;     }      if (!cookie.name || cookie.value === undefined) {       return null;     }      const normalized = {       name: String(cookie.name),       value: String(cookie.value)     };      if (cookie.domain) {       normalized.domain = cookie.domain;     } else {       normalized.domain = 'loadia.app';     }      if (cookie.path) {       normalized.path = cookie.path;     } else {       normalized.path = '/';     }      if (cookie.expires !== undefined) {       const expires = Number(cookie.expires);        if (Number.isFinite(expires) && expires > 0) {         normalized.expires = expires;       }     }      if (cookie.httpOnly !== undefined) {       normalized.httpOnly = Boolean(cookie.httpOnly);     }      if (cookie.secure !== undefined) {       normalized.secure = Boolean(cookie.secure);     } else {       normalized.secure = true;     }      if (cookie.sameSite) {       let sameSite = String(cookie.sameSite);        if (         sameSite.toLowerCase() === 'no_restriction' ||         sameSite.toLowerCase() === 'none'       ) {         sameSite = 'None';       } else if (sameSite.toLowerCase() === 'lax') {         sameSite = 'Lax';       } else if (sameSite.toLowerCase() === 'strict') {         sameSite = 'Strict';       } else {         sameSite = undefined;       }        if (sameSite) {         normalized.sameSite = sameSite;       }     }      return normalized;   };    const normalizeCookies = (value) => {     let source = value;      if (typeof source === 'string') {       try {         source = JSON.parse(source);       } catch (error) {         return [];       }     }      if (       source &&       typeof source === 'object' &&       !Array.isArray(source) &&       Array.isArray(source.cookies)     ) {       source = source.cookies;     }      if (!Array.isArray(source)) {       return [];     }      return source       .map(normalizeCookie)       .filter(Boolean);   };    const currentCookies = async () => {     const cookies = await page.cookies();      return cookies.map((cookie) => ({       name: cookie.name,       value: cookie.value,       domain: cookie.domain,       path: cookie.path,       expires: cookie.expires,       httpOnly: cookie.httpOnly,       secure: cookie.secure,       sameSite: cookie.sameSite     }));   };    const state = async () => {     return await page.evaluate((selectors) => {       const bodyText =         document.body?.innerText || '';        const url = window.location.href;        const logoutButton =         document.querySelector(selectors.logout);        const emailInput =         document.querySelector(selectors.email);        const passwordInput =         document.querySelector(selectors.password);        const loginForm =         Boolean(emailInput && passwordInput);        const loginRoute =         /\\/sign-in/i.test(url) ||         /\\/login/i.test(url);        const connected =         Boolean(logoutButton);        return {         page: url,         connected,         loginForm,         loginRoute,         bodyText: bodyText.slice(0, 3000)       };     }, selectors);   };    const waitForSession = async (timeout = 20000) => {     const end = Date.now() + timeout;      while (Date.now() < end) {       checkBudget();        const current = await state();        if (current.connected) {         return true;       }        if (         current.loginForm ||         current.loginRoute       ) {         return false;       }        await pause(750);     }      return false;   };    const success = async (method) => {     const cookies = await currentCookies();     const current = await state();      return reply({       statut_session: 'valide',       date_extraction:         new Date().toISOString(),       methode_authentification: method,       reconnexion_effectuee:         method === 'identifiants',       cookies,       diagnostic: {         etape: stage,         page: current.page || null,         bouton_deconnexion_visible:           Boolean(current.connected),         formulaire_connexion_visible:           Boolean(current.loginForm),         etat_cookie_initial: cookieState,         cookies_injectes: injectedCount,         tentative_reconnexion:           loginAttempted       }     });   };    const getSupabaseErrors = async () => {     return await page.evaluate(() => {       const texts = Array.from(         document.querySelectorAll(           '[role=\"alert\"], .text-destructive, .text-red-500, .text-red-600'         )       )         .map((element) =>           String(             element.textContent || ''           ).trim()         )         .filter(Boolean);        return [...new Set(texts)];     });   };    const fillInput = async (     selector,     value   ) => {     const input =       await page.$(selector);      if (!input) {       throw new Error(         `INPUT_NOT_FOUND:${selector}`       );     }      await input.click({       clickCount: 3     });      await page.keyboard.press(       'Backspace'     );      await input.type(String(value), {       delay: 25     });   };    const login = async () => {     loginAttempted = true;     stage = 'connexion par identifiants';      const email =       String(context.email || '').trim();      const password =       String(context.password || '');      if (!email || !password) {       throw new Error(         'IDENTIFIANTS_MANQUANTS'       );     }      let current = await state();      if (       !current.loginForm &&       !current.loginRoute     ) {       await navigate(         '/app/sign-in?lang=fr'       );     }      const formReady =       await page         .waitForSelector(           selectors.email,           {             timeout: 15000           }         )         .catch(() => null);      if (!formReady) {       throw new Error(         'FORMULAIRE_CONNEXION_INTROUVABLE'       );     }      await fillInput(       selectors.email,       email     );      await fillInput(       selectors.password,       password     );      const submit =       await page.$(         selectors.submit       );      if (!submit) {       throw new Error(         'BOUTON_CONNEXION_INTROUVABLE'       );     }      await Promise.all([       submit.click(),       pause(1000)     ]);      const end =       Date.now() + 30000;      while (Date.now() < end) {       checkBudget();        current = await state();        if (current.connected) {         return true;       }        const cookies =         await currentCookies();        if (         cookies.length > 0 &&         !current.loginForm &&         !current.loginRoute       ) {         return true;       }        await pause(1000);     }      const errors =       await getSupabaseErrors();      throw new Error(       errors.length         ? `LOGIN_FAILED:${errors.join(' | ')}`         : 'LOGIN_FAILED'     );   };    try {     stage = 'préparation';      await page.setUserAgent(       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36'     );      await page.setViewport({       width: 1365,       height: 900     });      const cookies =       normalizeCookies(         context.cookies       );      if (cookies.length > 0) {       stage = 'injection cookie';        try {         await page.setCookie(           ...cookies         );          injectedCount =           cookies.length;          cookieState =           'cookies_injectés';       } catch (error) {         cookieState =           'erreur_injection_cookie';       }     } else {       cookieState =         'cookies_absents';     }      /*      * 1. On teste d'abord le cookie.      *      * IMPORTANT :      * si le cookie est invalide,      * expiré ou impossible à vérifier,      * on NE BLOQUE PLUS le workflow.      *      * On continue ensuite avec      * la connexion par identifiants.      */     if (injectedCount) {       stage =         'cookie verification';        try {         await navigate(           '/app/?lang=fr'         );          if (           await waitForSession(             20000           )         ) {           if (             (               await currentCookies()             ).length           ) {             return await success(               'cookie'             );           }            cookieState =             'cookies_absents';         } else {           /*            * Cookie invalide ou            * expiré :            * on passe aux            * identifiants.            */           cookieState =             'session_invalide';         }       } catch (cookieError) {         /*          * Seul le timeout global          * doit réellement arrêter          * le traitement.          */         if (           cookieError?.message ===           'TIME_BUDGET'         ) {           throw cookieError;         }          /*          * Toute autre erreur          * pendant le test cookie          * déclenche le fallback          * identifiants.          */         cookieState =           'verification_cookie_echouee';       }     }      /*      * 2. Le cookie n'a pas      * fonctionné.      *      * On utilise automatiquement :      * context.email      * context.password      */     stage =       'préparation reconnexion';      const current =       await state();      if (       !current.loginForm &&       !current.loginRoute     ) {       await navigate(         '/app/sign-in?lang=fr'       );     }      /*      * 3. Connexion avec      * mail_loadia / mdp_loadia      */     await login();      /*      * 4. Vérification de la      * nouvelle session.      */     stage =       'vérification après connexion';      await navigate(       '/app/?lang=fr'     );      const connected =       await waitForSession(         20000       );      if (!connected) {       throw new Error(         'SESSION_INVALIDE_APRES_CONNEXION'       );     }      /*      * 5. Les nouveaux cookies      * sont renvoyés au workflow.      */     return await success(       'identifiants'     );   } catch (error) {     let current = {};      try {       current =         await state();     } catch (_) {}      let errors = [];      try {       errors =         await getSupabaseErrors();     } catch (_) {}      const message =       error?.message ||       String(error);      const invalid =       [         'IDENTIFIANTS_MANQUANTS',         'LOGIN_FAILED',         'SESSION_INVALIDE_APRES_CONNEXION'       ].some((code) =>         message.includes(code)       );      return reply({       statut_session:         invalid           ? 'invalide'           : 'erreur',        erreur: message,        diagnostic: {         etape: stage,         page:           current.page || null,          bouton_deconnexion_visible:           Boolean(             current.connected           ),          formulaire_connexion_visible:           Boolean(             current.loginForm           ),          etat_cookie_initial:           cookieState,          cookies_injectes:           injectedCount,          tentative_reconnexion:           loginAttempted,          erreurs_auth_supabase:           errors       }     });   } }"
+            },
+            {
+              "name": "context",
+              "value": "={{ {\n  cookies: $('Edit Fields').first().json.cookie_loadia || [],\n  email: $('Edit Fields').first().json.mail_loadia,\n  password: $('Edit Fields').first().json.mdp_loadia\n} }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 190000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -2304,
+        -464
+      ],
+      "id": "f2407186-480b-5ab2-87b9-5eb3a83af3a2",
+      "name": "Vérification cookie",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SPREADSHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "N8N",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Genre": "Jeux vidéo",
+            "Liste de souhait": "={{ $('Stat1').first().json.liste_souhait }}",
+            "En possession (Total)": "={{ $('Stat1').first().json.total_ludotheque }}",
+            "En possession et Lu": "={{ $('Stat1').first().json.jeux_joues }}",
+            "Non possédé et Lu": "={{ $('Stat1').first().json.backlog }}",
+            "Dédicace": "={{ $('Stat1').first().json.autre_stat }}"
+          },
+          "matchingColumns": [
+            "Genre"
+          ],
+          "schema": [
+            {
+              "id": "Genre",
+              "displayName": "Genre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Liste de souhait",
+              "displayName": "Liste de souhait",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "En possession (Total)",
+              "displayName": "En possession (Total)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "En possession et Lu",
+              "displayName": "En possession et Lu",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Non possédé et Lu",
+              "displayName": "Non possédé et Lu",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Dédicace",
+              "displayName": "Dédicace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Autre Stat",
+              "displayName": "Autre Stat",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Pages",
+              "displayName": "Pages",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Poids",
+              "displayName": "Poids",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Prix",
+              "displayName": "Prix",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Stat",
+              "displayName": "Stat",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Max",
+              "displayName": "Max",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Min",
+              "displayName": "Min",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Max p",
+              "displayName": "Max p",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Min p",
+              "displayName": "Min p",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Moyenne Page",
+              "displayName": "Moyenne Page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1408,
+        -656
+      ],
+      "id": "0c35c1de-2981-5c36-83e3-79dc9dc4e44e",
+      "name": "Append or update row in sheet"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst result = input.data ?? input;\n\nif (input.error || result.statut_session !== 'valide') {\n  throw new Error(\n    result.erreur || 'Loadia library request failed.'\n  );\n}\n\nconst raw = result.donnees;\n\nif (!Array.isArray(raw?.games) || !raw.counts) {\n  throw new Error('Missing library data.');\n}\n\nconst clean = (value) =>\n  String(value ?? '').replace(/\\s+/g, ' ').trim();\n\nfunction parseCount(value) {\n  const text = clean(value).replace(/\\s/g, '');\n\n  if (!/^\\d+$/.test(text)) {\n    throw new Error('Invalid library count.');\n  }\n\n  const count = Number(text);\n\n  if (!Number.isSafeInteger(count)) {\n    throw new Error('Invalid library count.');\n  }\n\n  return count;\n}\n\nfunction parseRating(value) {\n  if (value === null) return null;\n\n  const match = clean(value).match(\n    /(?:^|:\\s*)(\\d+(?:[.,]\\d+)?)\\s*\\/\\s*(\\d+(?:[.,]\\d+)?)$/\n  );\n\n  if (!match) {\n    throw new Error('Invalid game rating: ' + clean(value));\n  }\n\n  const rating = Number(match[1].replace(',', '.'));\n  const maximum = Number(match[2].replace(',', '.'));\n\n  if (\n    maximum !== 5 ||\n    rating < 0 ||\n    rating > 5 ||\n    !Number.isInteger(rating * 2)\n  ) {\n    throw new Error('Unexpected game rating scale.');\n  }\n\n  return rating;\n}\n\nconst statusLabels = {\n  backlog: 'Envie',\n  owned: 'À jouer',\n  played: 'Terminé',\n  playing: 'En cours',\n  abandoned: 'Abandonné'\n};\n\nconst byId = new Map();\n\nfor (const game of raw.games) {\n  const id = clean(game.id);\n\n  if (!id || !clean(game.titre)) {\n    throw new Error('A game has no identifier or title.');\n  }\n\n  if (!Object.prototype.hasOwnProperty.call(statusLabels, game.statut)) {\n    throw new Error('Unknown game status for: ' + id);\n  }\n\n  if (\n    !Object.prototype.hasOwnProperty.call(game, 'note_texte') ||\n    typeof game.coup_de_coeur !== 'boolean' ||\n    typeof game.complete_100_pourcent !== 'boolean' ||\n    !Array.isArray(game.marques)\n  ) {\n    throw new Error(\n      'Missing game metadata. Run the updated library node first.'\n    );\n  }\n\n  const previous = byId.get(id);\n\n  if (\n    previous &&\n    JSON.stringify(previous) !== JSON.stringify(game)\n  ) {\n    throw new Error('Conflicting data for game: ' + id);\n  }\n\n  byId.set(id, game);\n}\n\nconst games = [...byId.values()];\nconst expected = parseCount(raw.counts.Tout);\n\nif (games.length !== expected) {\n  throw new Error(\n    'Incomplete library: expected ' +\n    expected +\n    ', got ' +\n    games.length\n  );\n}\n\nfor (const [status, label] of Object.entries(statusLabels)) {\n  if (!(label in raw.counts)) {\n    throw new Error('Missing library counter: ' + label);\n  }\n\n  const actual = games.filter(\n    (game) => game.statut === status\n  ).length;\n\n  if (parseCount(raw.counts[label]) !== actual) {\n    throw new Error('Library count mismatch for: ' + label);\n  }\n}\n\nif (\n  !result.date_extraction ||\n  !Number.isFinite(Date.parse(result.date_extraction))\n) {\n  throw new Error('Missing or invalid extraction date.');\n}\n\nreturn games.map((game) => ({\n  json: {\n    source: 'Loadia',\n    id_jeu: clean(game.id),\n    titre: clean(game.titre),\n\n    statut: statusLabels[game.statut],\n    statut_loadia: game.statut,\n\n    dans_ludotheque: game.statut !== 'backlog',\n    liste_souhait: game.statut === 'backlog',\n\n    note: parseRating(game.note_texte),\n    coup_de_coeur: game.coup_de_coeur,\n    complete_100_pourcent: game.complete_100_pourcent,\n\n    url: game.url,\n    image: game.image || null,\n\n    marques: [\n      ...new Set(game.marques.map(clean).filter(Boolean))\n    ].join(' | '),\n\n    date_extraction: result.date_extraction\n  },\n\n  pairedItem: {\n    item: 0\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1408,
+        -464
+      ],
+      "id": "7bc38bdb-c52b-58ea-8fcd-bead4de76f3a",
+      "name": "Stat3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://browserless:3000/function?timeout=120000",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "code",
+              "value": "export default async function loadiaLibrary({ page, context = {} }) {   const reply = data => ({ data, type: 'application/json' });    const pause = ms =>     new Promise(resolve => setTimeout(resolve, ms));    const origin = 'https://loadia.app';   const selector = 'main.l-main .l-head-count';   const deadline = Date.now() + 110000;    const isAuth = cookie =>     cookie &&     typeof cookie.name === 'string' &&     typeof cookie.value === 'string' &&     /-auth-token(?:\\.\\d+)?$/.test(cookie.name);    const failures = new Map();   const authResponses = [];   const games = new Map();    let injectedCount = 0;   let storedCount = null;   let expected = null;   let clicks = 0;   let stage = 'configuration';    function timeout(maximum) {     const remaining = deadline - Date.now();      if (remaining < 1000) {       throw new Error('DEADLINE');     }      return Math.min(maximum, remaining);   }    function moreButton() {     return [...document.querySelectorAll('button')].find(button => {       const label = (button.textContent || '')         .replace(/\\s+/g, ' ')         .trim();        const style = getComputedStyle(button);        return (         /^Afficher plus de jeux$/i.test(label) &&         button.getClientRects().length > 0 &&         style.display !== 'none' &&         style.visibility !== 'hidden' &&         style.visibility !== 'collapse' &&         !button.disabled &&         button.getAttribute('aria-disabled') !== 'true' &&         button.getAttribute('aria-busy') !== 'true'       );     }) || false;   }    function newCards(knownIds) {     const known = new Set(knownIds);      return [...document.querySelectorAll(       'main.l-main .l-grid a.l-tile[href]'     )].some(card => {       const url = new URL(         card.getAttribute('href'),         location.origin       );        const id = url.pathname         .replace(/\\/$/, '')         .split('/')         .pop();        return id && !known.has(id);     });   }    function readLibrary() {     const text = element =>       (element?.textContent || '')         .replace(/\\s+/g, ' ')         .trim();      const normalize = value =>       String(value || '')         .normalize('NFD')         .replace(/[\\u0300-\\u036f]/g, '')         .replace(/\\u0153/g, 'oe')         .toLowerCase();      const root = document.querySelector('main.l-main');      if (!root) {       throw new Error('LIBRARY_NOT_FOUND');     }      const counts = Object.fromEntries(       [...root.querySelectorAll(         '.l-toolbar[aria-label=\"Collection\"] button'       )]         .filter(button => button.querySelector('.l-count'))         .map(button => {           const count = text(button.querySelector('.l-count'));           const copy = button.cloneNode(true);            copy.querySelector('.l-count').remove();            return [text(copy), count];         })     );      const entries = [...root.querySelectorAll(       '.l-grid a.l-tile[href]'     )].map(card => {       const url = new URL(         card.getAttribute('href'),         location.origin       );        const badge = card.querySelector(         '.is-status[data-status]'       );        const rating = card.querySelector('.l-cover-rating');        const marks = [...card.querySelectorAll('.l-cover-mark')]         .map(mark =>           mark.getAttribute('title') ||           mark.getAttribute('aria-label') ||           text(mark)         )         .filter(Boolean);        return {         id: url.pathname           .replace(/\\/$/, '')           .split('/')           .pop(),          titre:           card.getAttribute('title') ||           card.getAttribute('aria-label'),          url: url.origin + url.pathname,          image:           card.querySelector('img')?.getAttribute('src') ||           null,          statut:           badge?.getAttribute('data-status') ||           null,          libelle_statut:           badge?.getAttribute('title') ||           badge?.getAttribute('aria-label') ||           null,          note_texte: rating           ? (             rating.getAttribute('title') ||             rating.getAttribute('aria-label') ||             text(rating)           )           : null,          coup_de_coeur:           Boolean(card.querySelector('.l-cover-mark.is-loved')) ||           marks.some(mark =>             /coups? de coeur/.test(normalize(mark))           ),          complete_100_pourcent:           marks.some(mark => /100\\s*%/.test(mark)),          marques: marks       };     });      return {       reportedTotal: text(root.querySelector('.l-head-count')),       counts,       games: entries     };   }    async function stableLibrary() {     const end = Date.now() + timeout(10000);      let previous = '';     let stable = 0;     let snapshot;      while (Date.now() < end) {       snapshot = await page.evaluate(readLibrary);        const signature = JSON.stringify(snapshot);        stable = signature === previous ? stable + 1 : 0;        if (stable >= 3) {         return snapshot;       }        previous = signature;        await pause(500);     }      throw new Error('UNSTABLE');   }    function totalOf(snapshot) {     const value = String(snapshot.counts.Tout ?? '')       .replace(/\\s/g, '');      if (!/^\\d+$/.test(value)) {       throw new Error('TOTAL');     }      const total = Number(value);      if (!Number.isSafeInteger(total)) {       throw new Error('TOTAL');     }      return total;   }    function collect(snapshot) {     if (totalOf(snapshot) !== expected) {       throw new Error('TOTAL_CHANGED');     }      for (const game of snapshot.games) {       if (!game.id || !game.titre) {         throw new Error('INVALID_GAME');       }        games.set(game.id, game);     }      if (games.size > expected) {       throw new Error('INCOMPLETE');     }   }    async function diagnose() {     const authRequests = await Promise.all(       authResponses.map(async entry => {         let code = null;          try {           const body = await entry.response.json();            code = [             body.error_code,             body.code,             body.error           ].find(value =>             typeof value === 'string' &&             /^[a-z][a-z0-9_]{0,79}$/i.test(value)           ) || null;         } catch {}          return {           date: entry.date,           http: entry.response.status(),           grant_type: entry.grantType,           code         };       })     );      let state = {};      try {       state = await page.evaluate(target => {         const visible = element => {           if (!element || !element.getClientRects().length) {             return false;           }            const style = getComputedStyle(element);            return (             style.display !== 'none' &&             style.visibility !== 'hidden' &&             style.visibility !== 'collapse'           );         };          const anyVisible = css =>           [...document.querySelectorAll(css)].some(visible);          return {           page: location.origin + location.pathname,            donnees_visibles: anyVisible(target),            bouton_deconnexion_visible: anyVisible(             '.l-rail button[aria-label=\"Se d\\u00e9connecter\"]'           ),            champ_mot_de_passe_visible: anyVisible(             'input[type=\"password\"]'           ),            route_connexion:             /\\/(login|signin|sign-in|auth|connexion)(\\/|$)/i               .test(location.pathname)         };       }, selector);     } catch {}      let remaining = null;      try {       remaining = (         await page.cookies(origin + '/')       ).filter(isAuth).length;     } catch {}      return {       mode: 'ludotheque',       etape: stage,       ...state,        date_diagnostic: new Date().toISOString(),       date_verification: context.verificationDate || null,        cookies_injectes: injectedCount,       cookies_stockes_apres_injection: storedCount,       cookies_presents: remaining,        jeux_attendus: expected,       jeux_collectes: games.size,       clics_afficher_plus: clicks,        erreurs_auth_supabase: authRequests,        requetes_en_echec: [...failures]         .slice(0, 10)         .map(([url, http]) => ({ url, http }))     };   }    try {     let cookies = context.cookies;      if (typeof cookies === 'string') {       try {         cookies = JSON.parse(cookies);       } catch {         throw new Error('COOKIES');       }     }      if (!Array.isArray(cookies)) {       throw new Error('COOKIES');     }      cookies = cookies.filter(cookie =>       isAuth(cookie) &&       (         !cookie.domain ||         cookie.domain.replace(/^\\./, '') === 'loadia.app'       )     );      if (!cookies.length) {       throw new Error('COOKIES');     }      injectedCount = cookies.length;      await page.setCookie(...cookies.map(cookie => {       const item = {         name: cookie.name,         value: cookie.value,         url: origin + '/',         path: '/',         secure: true,         httpOnly: Boolean(cookie.httpOnly),          sameSite: {           lax: 'Lax',           strict: 'Strict',           none: 'None',           no_restriction: 'None'         }[           String(cookie.sameSite || 'lax').toLowerCase()         ] || 'Lax'       };        const expiry = Number(         cookie.expires ?? cookie.expirationDate       );        if (Number.isFinite(expiry) && expiry > 0) {         item.expires = expiry;       }        return item;     }));      storedCount = (       await page.cookies(origin + '/')     ).filter(isAuth).length;      await page.setViewport({       width: 1440,       height: 1000     });      await page.setExtraHTTPHeaders({       'Accept-Language': 'fr-FR,fr;q=0.9'     });      page.on('response', response => {       const request = response.request();       const url = new URL(response.url());        if (         url.hostname.endsWith('.supabase.co') &&         url.pathname === '/auth/v1/token' &&         response.status() >= 400       ) {         const grantType = url.searchParams.get('grant_type');          authResponses.push({           response,           date: new Date().toISOString(),            grantType: [             'refresh_token',             'password',             'pkce',             'id_token'           ].includes(grantType)             ? grantType             : 'other'         });          if (authResponses.length > 10) {           authResponses.shift();         }       }        if (         ['xhr', 'fetch'].includes(request.resourceType()) &&         (           url.hostname === 'loadia.app' ||           url.hostname.endsWith('.supabase.co')         )       ) {         const key = url.origin + url.pathname;          if (response.status() >= 400) {           failures.set(key, response.status());         } else {           failures.delete(key);         }       }     });      stage = 'navigation';      const response = await page.goto(       origin + '/app/library?lang=fr',       {         waitUntil: 'networkidle2',         timeout: timeout(40000)       }     );      if (response && response.status() >= 400) {       throw new Error('HTTP_' + response.status());     }      stage = 'page readiness';      try {       const handle = await page.waitForSelector(selector, {         visible: true,         timeout: timeout(30000)       });        if (handle) {         await handle.dispose();       }     } catch (error) {       if (error.name === 'TimeoutError') {         throw new Error('PAGE_NOT_READY');       }        throw error;     }      stage = 'data stabilization';      let snapshot = await stableLibrary();      expected = totalOf(snapshot);      collect(snapshot);      while (games.size < expected) {       stage = 'load more button';        let handle;        try {         handle = await page.waitForFunction(           moreButton,           {             polling: 250,             timeout: timeout(10000)           }         );       } catch (error) {         if (error.name === 'TimeoutError') {           throw new Error('MORE_BUTTON');         }          throw error;       }        const knownIds = [...games.keys()];       const before = games.size;        try {         const button = handle.asElement();          if (!button) {           throw new Error('MORE_BUTTON');         }          await button.click();          clicks++;       } finally {         await handle.dispose();       }        stage = 'new games loading';        try {         const progress = await page.waitForFunction(           newCards,           {             polling: 250,             timeout: timeout(20000)           },           knownIds         );          await progress.dispose();       } catch (error) {         if (error.name === 'TimeoutError') {           throw new Error('NO_NEW_GAMES');         }          throw error;       }        stage = 'new games stabilization';        snapshot = await stableLibrary();        collect(snapshot);        if (games.size <= before) {         throw new Error('NO_NEW_GAMES');       }     }      stage = 'complete library';      if (games.size !== expected) {       throw new Error('INCOMPLETE');     }      if (failures.size) {       throw new Error('DATA_REQUEST');     }      snapshot.games = [...games.values()];      return reply({       statut_session: 'valide',       date_extraction: new Date().toISOString(),       donnees: snapshot     });    } catch (error) {     const diagnostic = await diagnose();      if (       error.message === 'PAGE_NOT_READY' &&       !diagnostic.bouton_deconnexion_visible &&       (         diagnostic.champ_mot_de_passe_visible ||         diagnostic.route_connexion       )     ) {       return reply({         statut_session: 'invalide',         erreur:           'Loadia still displays a login screen. Run the workflow from the start to obtain a new session.',         diagnostic       });     }      const messages = {       COOKIES:         'Missing or invalid context.cookies. Check the reference to the verification node.',        LIBRARY_NOT_FOUND:         'The Loadia library section was not found.',        TOTAL:         'The Tout counter was not found or is invalid.',        TOTAL_CHANGED:         'The Tout counter changed during extraction. Run the workflow again.',        INVALID_GAME:         'A game card has no identifier or title.',        INCOMPLETE:         'The number of collected games does not match the Tout counter.',        UNSTABLE:         'The library is still changing. Run the workflow again.',        DATA_REQUEST:         'A Loadia data request failed. Check diagnostic.',        MORE_BUTTON:         'The library is incomplete and the load more button was not available.',        NO_NEW_GAMES:         'The load more button was clicked, but no new games were collected.',        DEADLINE:         'The extraction time limit was reached before completion.',        PAGE_NOT_READY:         'The Loadia library page did not load. Check diagnostic.'     };      let message =       messages[error.message] ||       'Extraction failed during: ' + stage;      if (/ERR_NAME_NOT_RESOLVED/.test(String(error.message))) {       message = 'DNS resolution failed for Loadia.';     }      if (/^HTTP_\\d+$/.test(error.message)) {       message = 'Loadia returned: ' + error.message;     }      return reply({       statut_session: 'erreur',       erreur: message,       diagnostic     });   } }"
+            },
+            {
+              "name": "context",
+              "value": "={{ {\n  mode: 'ludotheque',\n  cookies: (\n    $('Vérification cookie').first().json.data\n    ?? $('Vérification cookie').first().json\n  ).cookies,\n  verificationDate: (\n    $('Vérification cookie').first().json.data\n    ?? $('Vérification cookie').first().json\n  ).date_extraction\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1632,
+        -464
+      ],
+      "id": "0f5a5a55-06de-54dd-8884-b9647852bfbe",
+      "name": "ludothèque"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "17153cf3-aada-5044-803c-d9aed862b6d4",
+              "leftValue": "={{ ($json.data ?? $json).statut_session ?? 'erreur' }}",
+              "rightValue": "valide",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "e6d31d44-257d-5fe3-8dd8-aebc039f54f7",
+              "leftValue": "={{ !$json.error && !($json.data ?? $json).error && !($json.data ?? $json).erreur }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2080,
+        -464
+      ],
+      "id": "1dc7dda5-a955-555b-b388-0cd268f0702d",
+      "name": "If8"
+    },
+    {
+      "parameters": {
+        "resource": "table",
+        "operation": "clear",
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_JEUX_VID_O_TABLE_ID",
+          "mode": "id"
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -1856,
+        -464
+      ],
+      "id": "33770d3d-93fc-592f-92a6-db5620138819",
+      "name": "Clear a data table2"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_JEUX_VID_O_TABLE_ID",
+          "mode": "id"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "titre",
+              "keyValue": "={{ $json.titre }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "titre": "={{ $json.titre }}",
+            "statut": "={{ $json.statut }}",
+            "marques": "={{ $json.marques }}",
+            "dans_ludotheque": "={{ $json.dans_ludotheque }}",
+            "liste_souhait": "={{ $json.liste_souhait }}",
+            "coup_de_coeur": "={{ $json.coup_de_coeur }}",
+            "complete_100_pourcent": "={{ $json.complete_100_pourcent }}",
+            "note": "={{ $json.note }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "titre",
+              "displayName": "titre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "statut",
+              "displayName": "statut",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "marques",
+              "displayName": "marques",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dans_ludotheque",
+              "displayName": "dans_ludotheque",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "liste_souhait",
+              "displayName": "liste_souhait",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "coup_de_coeur",
+              "displayName": "coup_de_coeur",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "complete_100_pourcent",
+              "displayName": "complete_100_pourcent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "note",
+              "displayName": "note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -1184,
+        -464
+      ],
+      "id": "784ed780-63be-57ae-a1ad-25772faad5d4",
+      "name": "Upsert row(s)5"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -944,
+        -624
+      ],
+      "id": "d612e266-5715-5abe-bf8f-0cbe7ed6bc59",
+      "name": "Merge12"
+    }
+  ],
+  "connections": {
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuration Globale": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Restauration Tunnel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restauration Tunnel1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Configuration Globale",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Vérification cookie",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stat": {
+      "main": [
+        [
+          {
+            "node": "Stat1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vérification cookie": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stat1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ludothèque": {
+      "main": [
+        [
+          {
+            "node": "Stat3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stat3": {
+      "main": [
+        [
+          {
+            "node": "Upsert row(s)5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "Stat",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Clear a data table2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear a data table2": {
+      "main": [
+        [
+          {
+            "node": "ludothèque",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Merge12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert row(s)5": {
+      "main": [
+        [
+          {
+            "node": "Merge12",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  }
+}
